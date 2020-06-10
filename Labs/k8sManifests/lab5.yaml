@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lab5
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: lab5-svc
+  namespace: lab5
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lab5-user-pass
+  namespace: lab5
+type: Opaque
+data:
+  username: YXBwdXNlcl9sYWI1
+  password: Q3liZXJhcmsx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-app
+  namespace: lab5
+  labels:
+    app: lab5
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lab5
+  template:
+    metadata:
+      labels:
+        app: lab5
+    spec:
+      serviceAccountName: lab5-svc
+      containers:
+      - name: lab5
+        image: magicmarkh/dap-workshop-k8s:v2
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: LAB5_USER
+            valueFrom:
+              secretKeyRef:
+                name: lab5-user-pass
+                key: username
+          - name: LAB5_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: lab5-user-pass
+                key: password
+          - name: LAB5_DB_HOST
+            value: "10.0.0.9"
+        command:
+          - /bin/sh
+          - "-c"
+          - "sleep 999m"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k8s-app-ssl
+  namespace: lab5
