@@ -1,0 +1,8 @@
+Welcome!
+
+This series is will walk you through the CyberArk DevOps workshop. The workshop shows how to integrate CyberArk technologies into your devops pipeline with the goal of securing all of the applications that comprise the pipeline. The playlist break down will be in the description below. All supporting materials will be available on github in case you wish to go through manifests or policy files outside of the virtual environment. 
+
+These tutorials assume you have access to the SkyTap virtual enviornment provided by CyberArk. If you do not have access to that environment then check out the link in the description for more information. 
+
+Any updates or changes will also be down in the description. Leave a comment below if you've got any issues or questions. 
+
